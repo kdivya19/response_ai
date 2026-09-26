@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Response AI — Agentic Incident Escalation Analysis</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="navbar">
+    <div class="brand">
+      <div class="brand-icon">⚡</div>
+      <div>
+        <div class="brand-title">RESPONSE AI</div>
+        <span class="brand-tag">Agentic Escalation System</span>
+      </div>
+    </div>
+    
+    <div class="status-badge" id="systemStatus">
+      <div class="pulse-dot"></div>
+      <span id="statusText">System Active</span>
+    </div>
+  </header>
+
+  <!-- Main Grid Layout -->
+  <main class="main-container">
+    
+    <!-- Left Column: Input & Presets -->
+    <section class="glass-card">
+      <div class="card-header">
+        <h2 class="card-title">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+          Incident Ticket Input
+        </h2>
+      </div>
+
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+        Paste your IT incident ticket or select a sample preset ticket below to run the AI escalation pipeline:
+      </p>
+
+      <textarea id="ticketInput" class="ticket-input" placeholder="Enter incident ticket description here..."></textarea>
+
+      <!-- Quick Preset Selector -->
+      <div class="preset-container">
+        <span class="preset-label">Sample Ticket Presets:</span>
+        <button class="preset-btn" onclick="loadPreset(1)">Production Outage (APP-PROD-01)</button>
+        <button class="preset-btn" onclick="loadPreset(2)">Memory Exhaustion (DB-CLUSTER-03)</button>
+        <button class="preset-btn" onclick="loadPreset(3)">API Timeout (AUTH-GW-02)</button>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-bar">
+        <button id="analyzeBtn" class="btn-primary" onclick="runAnalysis()">
+          <span id="btnSpinner" class="spinner hidden"></span>
+          <span id="btnText">🚀 Run Agentic Analysis</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Right Column: Agentic Pipeline Stepper & Results -->
+    <section class="glass-card">
+      <div class="card-header">
+        <h2 class="card-title">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+          </svg>
+          Agent Execution & Analysis
+        </h2>
+      </div>
+
+      <!-- Pipeline Steps Tracker -->
+      <div class="stepper">
+        <div class="step-item" id="step1">
+          <div class="step-badge">1</div>
+          <div class="step-content">
+            <div class="step-title">Entity Extraction Agent</div>
+            <div class="step-desc">Extracting server, component & error codes via Structured Output</div>
+          </div>
+        </div>
+
+        <div class="step-item" id="step2">
+          <div class="step-badge">2</div>
+          <div class="step-content">
+            <div class="step-title">Log Ingestion Agent</div>
+            <div class="step-desc">Fetching system logs for target server & component</div>
+          </div>
+        </div>
+
+        <div class="step-item" id="step3">
+          <div class="step-badge">3</div>
+          <div class="step-content">
+            <div class="step-title">Incident Analysis Agent</div>
+            <div class="step-desc">Diagnosing root cause & failure timeline</div>
+          </div>
+        </div>
+
+        <div class="step-item" id="step4">
+          <div class="step-badge">4</div>
+          <div class="step-content">
+            <div class="step-title">Executive Report Agent</div>
+            <div class="step-desc">Generating professional management report & preventive actions</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Extracted Entities Badges -->
+      <div id="entityContainer" class="entity-grid hidden">
+        <div class="entity-pill">
+          <span class="entity-label">Server</span>
+          <span class="entity-val" id="valServer">-</span>
+        </div>
+        <div class="entity-pill">
+          <span class="entity-label">Component</span>
+          <span class="entity-val" id="valComponent">-</span>
+        </div>
+        <div class="entity-pill">
+          <span class="entity-label">Error Code</span>
+          <span class="entity-val" id="valErrorCode">-</span>
+        </div>
+        <div class="entity-pill">
+          <span class="entity-label">Reporter</span>
+          <span class="entity-val" id="valReporter">-</span>
+        </div>
+      </div>
+
+      <!-- Analysis & Report Tabs / Outputs -->
+      <div id="resultsContainer" class="hidden">
+        <div class="output-section">
+          <div class="output-title">
+            <span>🔬 Technical Root Cause Analysis</span>
+          </div>
+          <div class="output-box" id="analysisOutput">Analysis results will appear here...</div>
+        </div>
+
+        <div class="output-section">
+          <div class="output-title">
+            <span>📊 Generated Executive Incident Report</span>
+            <button class="copy-btn" onclick="copyReport()">📋 Copy Report</button>
+          </div>
+          <div class="output-box" id="reportOutput">Report will appear here...</div>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
